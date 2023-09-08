@@ -1,0 +1,18 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+
+GET http://localhost:5222/api/feed/settings
+
+###
+
+POST http://localhost:5222/api/feed/settings
+Content-Type: application/json
+
+{
+  "id": "cee8daa1-abc2-440e-9345-60c6d3730dcb",
+  "url": "https://www.tagesschau.de/xml/rss2",
+  "refreshRateMilliseconds": 5000
+}
+
+###
+
+DELETE http://localhost:5222/api/feed/settings/cee8daa1-abc2-440e-9345-60c6d3730dcb
