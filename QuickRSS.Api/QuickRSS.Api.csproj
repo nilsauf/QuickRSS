@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\QuickRSS.Api.Models\QuickRSS.Api.Models.csproj" />
     <ProjectReference Include="..\QuickRSS.CodeHollowFeedReader\QuickRSS.CodeHollowFeedReader.csproj" />
     <ProjectReference Include="..\QuickRSS.Database.EFCore\QuickRSS.Database.EFCore.csproj" />
     <ProjectReference Include="..\QuickRSS.Database\QuickRSS.Database.csproj" />

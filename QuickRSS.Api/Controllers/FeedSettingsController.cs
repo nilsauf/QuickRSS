@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using QuickRSS.Api.Extensions;
     using QuickRSS.Api.Models;
     using QuickRSS.Database.Feed;
 
@@ -29,7 +30,7 @@
                 var feed = await this.feedStore.GetAsync(notNullId);
                 return feed is null ?
                     StatusCode(StatusCodes.Status500InternalServerError) :
-                    Ok(FeedSettingsModel.FromEntity(feed));
+                    Ok(feed.ToSettingsModel());
             }
 
             async Task<IActionResult> GetAll()
@@ -37,7 +38,7 @@
                 var feeds = await this.feedStore.GetAllAsync();
                 return feeds is null ?
                     StatusCode(StatusCodes.Status500InternalServerError) :
-                    Ok(feeds.Select(FeedSettingsModel.FromEntity));
+                    Ok(feeds.Select(FeedExtensions.ToSettingsModel));
             }
         }
 
