@@ -4,6 +4,8 @@
 
     public interface ICurrentUserProvider
     {
-        Task<QuickRssUser?> GetAsync();
+        Task<QuickRssUser?> GetAsync(
+            bool includeFeedItems = false,
+            CancellationToken cancellationToken = default);
     }
 }

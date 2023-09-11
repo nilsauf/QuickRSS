@@ -58,35 +58,43 @@
             return true;
         }
 
-        public async Task<Feed?> GetAsync(Guid id)
+        public async Task<Feed?> GetAsync(
+            Guid id,
+            bool includeFeedItems = false,
+            CancellationToken cancellationToken = default)
         {
-            var user = await this.userProvider.GetAsync();
+            var user = await this.userProvider.GetAsync(includeFeedItems, cancellationToken);
             if (user is null)
                 return null;
 
             return user.Feeds.FirstOrDefault(feed => guidComparer.Equals(feed.Id, id));
         }
 
-        public async Task<IEnumerable<Feed>?> GetAllAsync()
+        public async Task<IEnumerable<Feed>?> GetAllAsync(
+            bool includeFeedItems = false,
+            CancellationToken cancellationToken = default)
         {
-            var user = await this.userProvider.GetAsync();
+            var user = await this.userProvider.GetAsync(includeFeedItems, cancellationToken);
             return user is null ?
                 null :
                 user.Feeds.ToList();
         }
 
-        public async Task<bool> UpdateAsync(Guid id, Action<Feed> update, CancellationToken token = default)
+        public async Task<bool> UpdateAsync(
+            Guid id,
+            Action<Feed> update,
+            bool includeFeedItems = false)
         {
             if (update is null)
                 throw new ArgumentNullException(nameof(update));
 
-            var feed = await this.GetAsync(id);
+            var feed = await this.GetAsync(id, includeFeedItems);
             if (feed is null)
                 return false;
 
             update(feed);
 
-            await this.SaveAndNotifyChangesAsync(id, token);
+            await this.SaveAndNotifyChangesAsync(id);
             return true;
         }
 

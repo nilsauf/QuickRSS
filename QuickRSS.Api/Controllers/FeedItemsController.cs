@@ -20,7 +20,7 @@
         [HttpGet]
         public async Task<IActionResult> Get(Guid feed, Guid? item)
         {
-            var feedEntity = await feedStore.GetAsync(feed);
+            var feedEntity = await feedStore.GetAsync(feed, true);
             if (feedEntity is null)
             {
                 return NotFound();
