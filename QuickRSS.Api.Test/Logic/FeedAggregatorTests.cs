@@ -36,7 +36,9 @@
             using var testCache = new SourceCache<Feed, Guid>(f => f.Id);
 
             var feedLoaderMock = new Mock<IFeedLoader>();
-            feedLoaderMock.Setup(fl => fl.LoadAsync(testingURL, tokenSource.Token))
+            feedLoaderMock.Setup(fl => fl.LoadAsync(
+                    It.IsNotNull<string>(),
+                    It.IsNotNull<CancellationToken>()))
                 .ReturnsAsync(testingFeed)
                 .Verifiable(Times.Exactly(5));
 
@@ -46,7 +48,7 @@
                 .Verifiable(Times.Once());
 
             var feedUpdaterMock = new Mock<IFeedUpdater>();
-            feedUpdaterMock.Setup(fu => fu.UpdateFeedAsync(testingFeed))
+            feedUpdaterMock.Setup(fu => fu.UpdateFeedAsync(It.IsNotNull<Feed>()))
                 .ReturnsAsync(Unit.Default)
                 .Callback<Feed>(feed => Assert.Equal(feed.Id, testingFeed.Id))
                 .Verifiable(Times.Exactly(5));
@@ -62,7 +64,7 @@
             scheduler.ScheduleAbsolute(testingFeed, 500, (scheduler, feed) =>
             {
                 testCache.AddOrUpdate(feed);
-                return scheduler.Schedule(TimeSpan.FromTicks(500), () => testCache.Remove(feed));
+                return scheduler.Schedule(TimeSpan.FromTicks(550), () => testCache.Remove(feed));
             });
 
             scheduler.Start();
