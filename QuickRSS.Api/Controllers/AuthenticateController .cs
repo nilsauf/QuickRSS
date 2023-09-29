@@ -52,10 +52,10 @@
 
                 var token = GetToken(authClaims);
 
-                return Ok(new
+                return Ok(new LoginResultModel
                 {
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
-                    expiration = token.ValidTo
+                    Token = new JwtSecurityTokenHandler().WriteToken(token),
+                    Expiration = token.ValidTo
                 });
             }
             return Unauthorized();
