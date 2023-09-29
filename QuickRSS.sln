@@ -22,7 +22,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{FD95
 		.github\dependabot.yml = .github\dependabot.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickRSS.Api.Models", "QuickRSS.Api.Models\QuickRSS.Api.Models.csproj", "{C7B78AFB-DA63-4085-9577-39B252F6EC60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickRSS.Api.Models", "QuickRSS.Api.Models\QuickRSS.Api.Models.csproj", "{C7B78AFB-DA63-4085-9577-39B252F6EC60}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickRSS.Api.Test", "QuickRSS.Api.Test\QuickRSS.Api.Test.csproj", "{F40401E2-B3CB-483F-B340-4418EDF9B5F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +60,10 @@ Global
 		{C7B78AFB-DA63-4085-9577-39B252F6EC60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7B78AFB-DA63-4085-9577-39B252F6EC60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7B78AFB-DA63-4085-9577-39B252F6EC60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F40401E2-B3CB-483F-B340-4418EDF9B5F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F40401E2-B3CB-483F-B340-4418EDF9B5F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F40401E2-B3CB-483F-B340-4418EDF9B5F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F40401E2-B3CB-483F-B340-4418EDF9B5F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
