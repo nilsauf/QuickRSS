@@ -3,7 +3,7 @@
 	using Microsoft.AspNetCore.Authorization;
 	using Microsoft.AspNetCore.Mvc;
 	using QuickRSS.Database.Feed;
-	using QuickRSS.Entities;
+	using QuickRSS.Database.FeedItem;
 
 	[Route("api/feed/items")]
 	[ApiController]
@@ -11,30 +11,32 @@
 	public class FeedItemsController : ControllerBase
 	{
 		private readonly IFeedStore feedStore;
+		private readonly IFeedItemStore feedItemStore;
 
-		public FeedItemsController(IFeedStore feedStore)
+		public FeedItemsController(IFeedStore feedStore, IFeedItemStore feedItemStore)
 		{
 			this.feedStore = feedStore;
+			this.feedItemStore = feedItemStore;
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> Get(Guid feed, string? item)
+		public async Task<IActionResult> Get(Guid? feed, string? item)
 		{
-			var feedEntity = await feedStore.GetAsync(feed, true);
-			if (feedEntity is null)
+			return string.IsNullOrWhiteSpace(item) ?
+				(feed.HasValue ?
+					await GetAllItemsAsync(feed!.Value) :
+					BadRequest()) :
+				await GetItemAsync(item);
+
+			async Task<IActionResult> GetAllItemsAsync(Guid feedId)
 			{
-				return NotFound();
+				var feedEntity = await feedStore.GetAsync(feedId, true);
+				return feedEntity is null ? NotFound() : Ok(feedEntity.Items);
 			}
 
-			return string.IsNullOrWhiteSpace(item) ?
-				GetAllItems(feedEntity) :
-				GetItem(feedEntity, item);
-
-			IActionResult GetAllItems(Feed feed) => Ok(feed.Items);
-
-			IActionResult GetItem(Feed feed, string itemId)
+			async Task<IActionResult> GetItemAsync(string itemId)
 			{
-				var feedItem = feed.Items.FirstOrDefault(item => item.Id == itemId);
+				var feedItem = await this.feedItemStore.GetAsync(itemId);
 				return feedItem is null ? NotFound() : Ok(feedItem);
 			}
 		}
