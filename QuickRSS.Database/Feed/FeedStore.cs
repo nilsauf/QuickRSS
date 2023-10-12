@@ -75,7 +75,7 @@
 			CancellationToken cancellationToken = default)
 		{
 			var user = await this.userProvider.GetAsync(includeFeedItems, cancellationToken);
-			return user?.Feeds.ToList();
+			return user?.Feeds;
 		}
 
 		public async Task<bool> UpdateAsync(
