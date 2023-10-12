@@ -2,6 +2,7 @@
 {
 	using Microsoft.AspNetCore.Authorization;
 	using Microsoft.AspNetCore.Mvc;
+	using QuickRSS.Api.Models;
 	using QuickRSS.Database.Feed;
 	using QuickRSS.Database.FeedItem;
 
@@ -39,6 +40,22 @@
 				var feedItem = await this.feedItemStore.GetAsync(itemId);
 				return feedItem is null ? NotFound() : Ok(feedItem);
 			}
+		}
+
+		[HttpPost]
+		[Route("markasread")]
+		public async Task<IActionResult> MarkAsRead([FromBody] MarkFeedItemsModel model)
+		{
+			var result = await this.feedItemStore.UpdateAsync(feedItem => feedItem.Read = true, model.ItemIds);
+			return result ? Ok() : NotFound();
+		}
+
+		[HttpPost]
+		[Route("markwithstar")]
+		public async Task<IActionResult> MarkWithStar([FromBody] MarkFeedItemsModel model)
+		{
+			var result = await this.feedItemStore.UpdateAsync(feedItem => feedItem.Starred = true, model.ItemIds);
+			return result ? Ok() : NotFound();
 		}
 	}
 }
